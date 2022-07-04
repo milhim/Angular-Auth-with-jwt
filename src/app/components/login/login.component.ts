@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
+import { TokenService } from 'src/app/services/token.service';
 
 @Component({
   selector: 'login',
@@ -8,7 +9,7 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class LoginComponent implements OnInit {
   public error = null;
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService,private token:TokenService) { }
   public form = {
     email: null,
     password: null,
@@ -18,11 +19,14 @@ export class LoginComponent implements OnInit {
   onSubmit() {
     this.authService.login(this.form)
       .subscribe(res => {
-        console.log(res);
+        this.handleResponse(res);
       },
         error => {
           this.error = this.authService.handleLoginError(error);
         });
+  }
+  handleResponse(data:any){
+this.token.handle(data.access_token);
   }
 
 }
