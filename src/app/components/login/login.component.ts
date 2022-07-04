@@ -21,9 +21,8 @@ export class LoginComponent implements OnInit {
         console.log(res);
       },
         error => {
-          this.error = this.authService.handleError(error);
+          this.error = this.authService.handleLoginError(error);
         });
-
   }
 
 }
