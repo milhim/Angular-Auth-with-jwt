@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
+import { TokenService } from 'src/app/services/token.service';
 
 @Component({
   selector: 'app-signup',
@@ -20,16 +22,24 @@ export class SignupComponent implements OnInit {
     password: null,
   };
 
-  constructor(private authService: AuthService) { }
+  constructor(
+    private authService: AuthService,
+    private token: TokenService,
+    private router: Router
+  ) { }
 
   ngOnInit(): void {
   }
   onSubmit() {
     this.authService.signup(this.form)
       .subscribe(
-        res => console.log(res),
+        res => this.handleResponse(res),
         error => this.error = this.authService.handleRegisterError(error)
       );
+  }
+  handleResponse(data: any) {
+    this.token.handle(data.access_token);
+    this.router.navigateByUrl('/profile')
   }
 
 }

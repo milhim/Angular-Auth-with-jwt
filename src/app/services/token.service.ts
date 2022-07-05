@@ -12,26 +12,25 @@ export class TokenService {
   constructor() { }
   handle(token: any) {
     this.set(token);
-    console.log(this.isValid())
   }
-  set(token: any) {
+  private set(token: any) {
     localStorage.setItem('token', token);
   }
-  get() {
+  private get() {
     return localStorage.getItem('token');
   }
   remove() {
     localStorage.removeItem('token');
   }
-  payload(token: any) {
+  private payload(token: any) {
     const payload = token.split(".")[1];
     return this.decode(payload);
 
   }
-  decode(payload: any) {
+  private decode(payload: any) {
     return JSON.parse(atob(payload));
   }
-  isValid() {
+  private isValid() {
     const token = this.get();
     if (token) {
       const payload = this.payload(token);
@@ -42,7 +41,7 @@ export class TokenService {
     }
     return false;
   }
-  logedIn(){
+  logedIn() {
     return this.isValid();
   }
 }
