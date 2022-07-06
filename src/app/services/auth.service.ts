@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class AuthService {
-
+private url='http://localhost:8000/api';
   constructor(private http: HttpClient) { }
 
   handleLoginError(error: any) {
@@ -16,9 +16,17 @@ export class AuthService {
     return error.error.errors;
   }
   login(data: any) {
-    return this.http.post('http://localhost:8000/api/login', data);
+    return this.http.post(`${this.url}/login`, data);
   }
   signup(data:any){
-    return this.http.post('http://localhost:8000/api/register',data);
+    return this.http.post(`${this.url}/register`,data);
+  }
+  sendPasswordRequest(data:any){
+    return this.http.post(`${this.url}/send-password-reset-link`,data);
+
+  }
+  changePassword(data:any){
+    return this.http.post(`${this.url}/password-reset`,data);
+
   }
 }
